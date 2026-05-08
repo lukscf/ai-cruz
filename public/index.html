@@ -4,237 +4,418 @@ session_start();
 ?>
 <!doctype html>
 <html lang="pt-BR">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Cruz AI | Inteligência Artificial</title>
-        
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cruz AI | IA Customizável para sua Empresa</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-		<style>
-			:root {
-				--bg-deep: #0f172a;
-				--bg-card: #1e293b;
-				--accent-gold: #fbbf24;
-				--text-main: #f8fafc;
-				--user-msg-bg: #2d3748;
-				--assistant-msg-bg: #1a202c;
-                --transition: all 0.3s ease;
-			}
-
-			* { box-sizing: border-box; margin: 0; padding: 0; }
-
-			body {
-				font-family: 'Inter', sans-serif;
-				background-color: var(--bg-deep);
-				color: var(--text-main);
-				line-height: 1.6;
-			}
-
-            /* --- CORREÇÃO DA NAVBAR --- */
-            .main-header {
-                background: linear-gradient(to bottom, #1e293b, var(--bg-deep));
-            }
-
-            .hero-mini {
-                padding: 50px 20px 30px;
-                text-align: center;
-            }
-
-            .hero-mini h1 {
-                font-weight: 800;
-                color: var(--accent-gold);
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin: 0;
-            }
-
-            .navbar {
-                background: rgba(15, 23, 42, 0.95);
-                backdrop-filter: blur(12px);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                position: sticky;
-                top: 0;
-                z-index: 1000;
-                padding: 10px 0;
-            }
-
-            .navbar-container {
-                max-width: 1100px;
-                margin: 0 auto;
-                padding: 0 20px;
-                display: flex;
-                flex-direction: row; /* Garante que fiquem lado a lado */
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .navbar-brand {
-                text-decoration: none;
-                color: white;
-                font-weight: 800;
-                font-size: 1.3rem;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-
-            /* Menu em linha horizontal */
-            .navbar-menu {
-                display: flex;
-                flex-direction: row !important; /* Força a linha */
-                align-items: center;
-                gap: 15px;
-            }
-
-            .nav-link {
-                color: var(--text-muted);
-                text-decoration: none;
-                padding: 8px 15px;
-                font-size: 0.9rem;
-                font-weight: 500;
-                transition: var(--transition);
-                white-space: nowrap; /* Impede quebra de linha no texto */
-            }
-
-            .nav-link:hover { color: white; }
-
-            .nav-link.active { 
-                background: var(--accent-gold); 
-                color: var(--bg-deep) !important; 
-                border-radius: 8px;
-                font-weight: 700;
-            }
-
-            /* --- CHAT AREA --- */
-			.chat-wrapper {
-				max-width: 900px;
-				margin: 40px auto;
-				padding: 0 15px;
-			}
-
-			.chat-container {
-				display: flex;
-				flex-direction: column;
-				height: 600px;
-				background-color: var(--bg-card);
-				border-radius: 20px;
-				overflow: hidden;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-                border: 1px solid rgba(255,255,255,0.05);
-			}
-
-			.chat-messages {
-				flex: 1;
-				overflow-y: auto;
-				padding: 1.5rem;
-				background-color: rgba(15, 23, 42, 0.2);
-			}
-
-			.message {
-				margin-bottom: 1rem;
-				padding: 1rem;
-				border-radius: 15px;
-				max-width: 80%;
-			}
-
-			.user-message {
-				background-color: var(--user-msg-bg);
-				align-self: flex-end;
-				margin-left: auto;
-			}
-
-			.assistant-message {
-				background-color: var(--assistant-msg-bg);
-				align-self: flex-start;
-                border: 1px solid rgba(255,255,255,0.05);
-			}
-
-			.message-input {
-				display: flex;
-				padding: 1.2rem;
-				background-color: var(--bg-card);
-				border-top: 1px solid rgba(255,255,255,0.05);
-			}
-
-			#user-input {
-				flex: 1;
-				padding: 12px;
-				background-color: var(--bg-deep);
-				border: 1px solid rgba(255,255,255,0.1);
-				border-radius: 10px;
-				color: white;
-				resize: none;
-			}
-
-			#send-button {
-				margin-left: 10px;
-				padding: 0 20px;
-				background-color: var(--accent-gold);
-				color: var(--bg-deep);
-				font-weight: 700;
-				border: none;
-				border-radius: 10px;
-				cursor: pointer;
-			}
-
-			.typing-indicator {
-				display: none;
-				color: var(--accent-gold);
-				padding: 10px 20px;
-				font-size: 0.8rem;
-			}
-
-			.typing-indicator.visible { display: block; }
-		</style>
-	</head>
-	<body>
-		
-        <header class="main-header">
-            <div class="hero-mini">
-                <h1>Cruz AI</h1>
-                <p>Assistência Inteligente e Soluções Cognitivas</p>
-            </div>
-            
-            <nav class="navbar">
-                <div class="navbar-container">                    
-                    <div class="navbar-menu">
-                        <a href="https://cruzferreira.com.br/container/index.html" class="nav-link">Color Picker</a>
-                        <a href="https://cruzferreira.com.br/container/palette.html" class="nav-link">Palette Generator</a>
-                        <a href="https://ai.cruzferreira.com.br" class="nav-link active">Cruz AI</a>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <main class="chat-wrapper">
-            <div class="chat-container">
-                <div id="chat-messages" class="chat-messages d-flex flex-column">
-                    <div class="message assistant-message">
-                        <p>Olá! Sou o Cruz AI. Como posso auxiliar seus projetos hoje?</p>
-                    </div>
-                </div>
-
-                <div class="typing-indicator" id="typing-indicator">
-                    <i class="bi bi-cpu"></i> Processando...
-                </div>
-
-                <div class="message-input">
-                    <textarea id="user-input" placeholder="Digite sua dúvida..." rows="1"></textarea>
-                    <button id="send-button">Enviar</button>
-                </div>
-            </div>
-        </main>
-
-        <?php
-        $remoteFooter = @file_get_contents('https://cruzferreira.com.br/footer.php');
-        if ($remoteFooter !== false) {
-            echo $remoteFooter;
+    <style>
+        :root {
+            --bg-deep: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --accent-gold: #fbbf24;
+            --accent-dark: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --user-msg-bg: #fbbf24;
+            --user-msg-text: #0f172a;
+            --assistant-msg-bg: rgba(15, 23, 42, 0.8);
+            --transition: all 0.3s ease;
         }
-        ?>
 
-		<script src="chat.js"></script>
-	</body>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            /* Fundo dinâmico igual ao Hub principal */
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+            background-size: 200% 200%;
+            animation: bgShift 15s ease infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* --- HEADER / NAVBAR --- */
+        .header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--accent-gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover { color: var(--accent-gold); }
+
+        /* --- HERO TEXT --- */
+        .hero-mini {
+            padding: 60px 20px 20px;
+            text-align: center;
+        }
+
+        .hero-mini h1 {
+            font-weight: 800;
+            color: #fff;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 10px;
+        }
+
+        .hero-mini span { color: var(--accent-gold); }
+
+        .hero-mini p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- CHAT AREA --- */
+        .chat-wrapper {
+            max-width: 900px;
+            margin: 30px auto 80px;
+            padding: 0 20px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 60vh;
+            min-height: 500px;
+            background-color: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            border-radius: 15px;
+            max-width: 85%;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .user-message {
+            background-color: var(--user-msg-bg);
+            color: var(--user-msg-text);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+            font-weight: 500;
+        }
+
+        .assistant-message {
+            background-color: var(--assistant-msg-bg);
+            color: var(--text-main);
+            align-self: flex-start;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-input {
+            display: flex;
+            padding: 1.5rem;
+            background-color: rgba(15, 23, 42, 0.9);
+            border-top: 1px solid rgba(251, 191, 36, 0.2);
+            gap: 15px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            resize: none;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        #user-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        #send-button {
+            padding: 0 30px;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-dark) 100%);
+            color: var(--bg-deep);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .typing-indicator {
+            display: none;
+            color: var(--accent-gold);
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .typing-indicator.visible { display: block; }
+
+        /* --- PROPOSAL SECTION --- */
+        .proposal-container {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .proposal-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proposal-box::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(251, 191, 36, 0.05);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+        }
+
+        .proposal-box h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .proposal-box p.lead {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 40px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+
+        .feature-item i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .feature-item h4 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .btn-proposal {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: var(--bg-deep);
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-proposal:hover {
+            transform: scale(1.05);
+            background: #fff;
+            color: var(--bg-deep);
+        }
+
+        @media (max-width: 768px) {
+            .proposal-box { padding: 40px 20px; }
+            .message-input { flex-direction: column; }
+            #send-button { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- CABEÇALHO -->
+    <header class="header">
+        <div class="header-brand"><i class="bi bi-robot"></i> Cruz AI</div>
+        <a href="https://cruzferreira.com.br" class="back-link"><i class="bi bi-arrow-left"></i> Voltar ao Hub</a>
+    </header>
+
+    <!-- ÁREA DE CHAT -->
+    <section class="hero-mini">
+        <h1>Teste a <span>Inteligência</span></h1>
+        <p>Experimente nosso motor de IA em tempo real abaixo.</p>
+    </section>
+
+    <main class="chat-wrapper">
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages d-flex flex-column">
+                <div class="message assistant-message">
+                    <p>Olá! Sou o Cruz AI. Faça uma pergunta ou peça para eu gerar alguma ideia para o seu negócio.</p>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typing-indicator">
+                <i class="bi bi-cpu"></i> A IA está processando...
+            </div>
+
+            <div class="message-input">
+                <textarea id="user-input" placeholder="Digite sua mensagem aqui..." rows="1"></textarea>
+                <button id="send-button"><i class="bi bi-send-fill"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- PROPOSTA COMERCIAL (SOLUÇÃO EMPRESARIAL) -->
+    <section class="proposal-container">
+        <div class="proposal-box">
+            <h2>Sua Empresa. Sua Inteligência.</h2>
+            <p class="lead">O chat acima é apenas o motor. Imagine esta Inteligência Artificial treinada <strong>exclusivamente com os dados, manuais e processos do seu negócio.</strong></p>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="bi bi-database-check"></i>
+                    <h4>Treinamento Customizado</h4>
+                    <p>Inserimos seus PDFs, planilhas, histórico de chat e site para que a IA responda exatamente como o seu melhor funcionário.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="bi bi-whatsapp"></i>
+                    <h4>Integração Nativa</h4>
+                    <p>Conectamos sua IA customizada direto no WhatsApp da sua empresa, Instagram, Site ou sistema interno (CRM/ERP).</p>
+                </div>
+                <div class="feature-item">
+                    <i class="bi bi-clock-history"></i>
+                    <h4>Atendimento Automático 24/7</h4>
+                    <p>Reduza custos com suporte e qualifique leads automaticamente. Sem limite de conversas simultâneas.</p>
+                </div>
+            </div>
+
+            <a href="mailto:contato@cruzferreira.com.br?subject=Quero uma IA Customizada para minha Empresa&body=Olá! Acessei o ai.cruzferreira.com.br e tenho interesse em criar uma Inteligência Artificial treinada com os dados da minha empresa. Podemos conversar?" class="btn-proposal">
+                🚀 Quero minha IA Customizada
+            </a>
+        </div>
+    </section>
+
+    <?php
+    $remoteFooter = @file_get_contents('https://cruzferreira.com.br/footer.php');
+    if ($remoteFooter !== false) {
+        echo $remoteFooter;
+    }
+    ?>
+
+    <script src="chat.js"></script>
+    <script>
+        // Auto-resize do textarea do chat
+        const tx = document.getElementById('user-input');
+        tx.setAttribute('style', 'height:' + (tx.scrollHeight) + 'px;overflow-y:hidden;');
+        tx.addEventListener("input", OnInput, false);
+
+        function OnInput() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if(this.value === '') {
+                this.style.height = '50px';
+            }
+        }
+    </script>
+</body>
 </html>
