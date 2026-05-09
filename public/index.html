@@ -43,6 +43,9 @@ session_start();
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         @keyframes bgShift {
@@ -116,6 +119,7 @@ session_start();
             max-width: 900px;
             margin: 30px auto 80px;
             padding: 0 20px;
+            width: 100%;
         }
 
         .chat-container {
@@ -223,6 +227,7 @@ session_start();
             max-width: 1000px;
             margin: 0 auto 100px;
             padding: 0 20px;
+            flex-grow: 1; /* Garante que o footer seja empurrado para baixo */
         }
 
         .proposal-box {
@@ -396,9 +401,31 @@ session_start();
     </section>
 
     <?php
-    $remoteFooter = @file_get_contents('https://cruzferreira.com.br/footer.php');
-    if ($remoteFooter !== false) {
+    // Tenta carregar o footer usando cURL primeiro (mais robusto para requisições externas)
+    // Faz fallback para file_get_contents se o cURL falhar ou não estiver disponível
+    $footer_url = 'https://cruzferreira.com.br/footer.php';
+    $remoteFooter = '';
+
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $footer_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5); // Timeout de 5 segundos
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Evita problemas de certificado local
+        $remoteFooter = curl_exec($ch);
+        curl_close($ch);
+    }
+
+    // Fallback caso cURL não retorne dados
+    if (empty($remoteFooter)) {
+        $remoteFooter = @file_get_contents($footer_url);
+    }
+
+    if ($remoteFooter !== false && !empty($remoteFooter)) {
         echo $remoteFooter;
+    } else {
+        // Fallback HTML de segurança caso o site principal esteja fora do ar
+        echo '<footer style="text-align: center; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto; color: #cbd5e1; font-size: 0.9rem;">&copy; ' . date('Y') . ' Cruz Ferreira. Todos os direitos reservados.</footer>';
     }
     ?>
 
